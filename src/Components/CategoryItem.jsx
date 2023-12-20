@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Card from './Card'
 import { colors } from '../global/colors'
 
-const CategoryItem = ({ category, categoryPressHandler }) => {
+const CategoryItem = ({ category, navigation }) => {
     return (
-        <Pressable onPress={() => categoryPressHandler(category)}>
+        <Pressable onPress={() => navigation.navigate("products", { category })}>
             <Card style={styles.cardContainer}>
                 <Text style={styles.text}>{category}</Text>
             </Card>
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
         textTransform: "capitalize",
         fontSize: 15,
         fontFamily: 'Montserrat-Medium',
-        
+
     },
 })

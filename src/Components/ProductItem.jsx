@@ -1,8 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 
-const ProductItem = ({ product, productPressHandler }) => {
+const ProductItem = ({ product, navigation }) => {
     return (
-        <TouchableOpacity onPress={() => productPressHandler(product)} style={styles.containerProductItem} >
+        <TouchableOpacity onPress={() => navigation.navigate("detail", { product })} style={styles.containerProductItem} >
             <Image
                 style={styles.productImage}
                 resizeMode='cover'

@@ -1,19 +1,30 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { colors } from '../global/colors'
 import { AntDesign } from '@expo/vector-icons';
 
-const Header = ({ title, isBack = true, goBack }) => {
+const Header = ({ title, navigation }) => {
     return (
         <View style={styles.headerContainer}>
             {
-                isBack &&
-                <TouchableOpacity onPress={goBack}>
-                    <AntDesign name="caretleft" size={24} color="white" />
-                </TouchableOpacity>
+                navigation.canGoBack()
+                    ?
+                    <>
+                        <Pressable onPress={navigation.goBack}>
+                            <AntDesign name="caretleft" size={20} color="white" />
+                        </Pressable>
+                        <Text style={styles.headerTitle}>{title}</Text>
+                        <Pressable onPress={navigation.popToTop}>
+                            <AntDesign name="home" size={24} color="white" />
+                        </Pressable>
+                    </>
+                    :
+                    <>
+
+                        <Text style={styles.headerTitle}>{title}</Text>
+    
+                    </>
+
             }
-
-            <Text style={styles.headerTitle}>{title}</Text>
-
         </View>
     )
 }
@@ -22,7 +33,7 @@ export default Header
 
 const styles = StyleSheet.create({
     headerContainer: {
-        height: 100,
+        height: 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 30,
@@ -30,8 +41,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
     },
     headerTitle: {
-        color: colors.white,
+        color: '#fff',
         fontFamily: 'Montserrat-Bold',
         fontSize: 20,
     }
 })
+
+

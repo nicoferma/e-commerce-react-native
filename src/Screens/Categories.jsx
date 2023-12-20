@@ -1,22 +1,18 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import Header from '../Components/Header'
 import CategoryItem from '../Components/CategoryItem'
 import categories from '../data/categories_data.json'
 
-const Categories = ({ categoryPressHandler }) => {
+const Categories = ({ navigation }) => {
 
     return (
-        <>
-            <Header title="Categorías" isBack={false} />
-            <View style={styles.container}>
-                <FlatList
-                    styles={styles.container}
-                    renderItem={({ item }) => <CategoryItem category={item} categoryPressHandler={categoryPressHandler} />}
-                    data={categories}
-                    keyExtractor={category => category}
-                />
-            </View>
-        </>
+        <View style={styles.container}>
+            <FlatList
+                styles={styles.container}
+                renderItem={({ item }) => <CategoryItem category={item} navigation={navigation} />}
+                data={categories}
+                keyExtractor={category => category}
+            />
+        </View>
     )
 }
 

@@ -2,12 +2,13 @@ import { View, Text, StyleSheet, ActivityIndicator, Image, TouchableOpacity, use
 import products from '../data/products_data.json'
 import { useEffect, useState } from 'react'
 import { colors } from '../global/colors'
-import Header from '../Components/Header'
 
-const ProductDetail = ({ product, goBack }) => {
+const ProductDetail = ({ route }) => {
     const [productSelected, setProductSelected] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [isPortrait, setIsPortrait] = useState(true)
+
+    const { product } = route.params
 
     const { height, width } = useWindowDimensions()
 
@@ -16,8 +17,8 @@ const ProductDetail = ({ product, goBack }) => {
     }, [height])
 
     useEffect(() => {
-        const productFound = products.find(p => p.id === product.id)
-        setProductSelected(productFound)
+        const productFinded = products.find(p => p.id === product.id)
+        setProductSelected(productFinded)
         setIsLoading(false)
     }, [product])
 
@@ -29,7 +30,6 @@ const ProductDetail = ({ product, goBack }) => {
                     <ActivityIndicator />
                     :
                     <>
-                        <Header title="Detalle del producto" goBack={goBack} />
                         <ScrollView >
                             <Image
                                 source={{ uri: productSelected?.images[0] }}
