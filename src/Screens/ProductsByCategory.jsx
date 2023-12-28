@@ -1,35 +1,47 @@
 import ProductItem from '../Components/ProductItem'
-import products from '../data/products_data.json'
 import { useEffect, useState } from 'react'
 import Search from '../Components/Search'
-import { FlatList } from 'react-native'
+import { ActivityIndicator, FlatList, View, Text } from 'react-native'
+import { colors } from '../global/colors'
+import { useSelector } from 'react-redux'
 
-const ProductsByCategory = ({ navigation, route }) => {
+const ProductsByCategory = ({ navigation }) => {
     const [productsByCategory, setProductsByCategory] = useState([])
     const [search, setSearch] = useState('')
+    const [isSearching, setIsSearching] = useState(false)
 
-    const { category } = route.params
+    const productsFilteredByCategory = useSelector(state => state.shopReducer.productsFilteredByCategory)
 
     useEffect(() => {
-        const productsFilteredByCategory = products.filter(product => product.category === category)
+        setIsSearching(true)
         const productsFiltered = productsFilteredByCategory.filter(
             product => product.title.toLowerCase().includes(search.toLowerCase()))
         setProductsByCategory(productsFiltered)
-    }, [category, search])
+        setIsSearching(false)
+    }, [productsFilteredByCategory, search])
 
     const onSearch = (search) => {
         setSearch(search)
     }
 
-
     return (
         <>
             <Search onSearchHandlerEvent={onSearch} />
-            <FlatList
-                data={productsByCategory}
-                renderItem={({ item }) => <ProductItem product={item} navigation={navigation} />}
-                keyExtractor={item => item.id}
-            />
+            {
+                isSearching ?
+                    <ActivityIndicator animating={true} color={colors.gray} />
+                    :
+                    <FlatList
+                        data={productsByCategory}
+                        renderItem={({ item }) => <ProductItem product={item} navigation={navigation} />}
+                        keyExtractor={item => item.id}
+                        ListEmptyComponent={
+                            <View>
+                                <Text>No hay resultados</Text>
+                            </View>
+                        }
+                    />
+            }
         </>
     )
 }

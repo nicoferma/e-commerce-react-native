@@ -3,6 +3,7 @@ import { colors } from '../global/colors'
 import { AntDesign } from '@expo/vector-icons';
 
 const Header = ({ title, navigation }) => {
+
     return (
         <View style={styles.headerContainer}>
             {
@@ -21,7 +22,7 @@ const Header = ({ title, navigation }) => {
                     <>
 
                         <Text style={styles.headerTitle}>{title}</Text>
-    
+
                     </>
 
             }

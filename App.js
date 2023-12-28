@@ -1,10 +1,8 @@
 import { ActivityIndicator, Text } from 'react-native';
 import { useFonts } from 'expo-font'
-import Categories from './src/Screens/Categories';
-import ProductsByCategory from './src/Screens/ProductsByCategory';
-import { useState } from 'react';
-import ProductDetail from './src/Screens/ProductDetail';
-import Navigator from './src/navigation/Navigator';
+import TabNavigator from './src/navigation/TabNavigator';
+import { Provider } from 'react-redux';
+import store from './src/store'
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -20,7 +18,9 @@ export default function App() {
 
 
   return (
-    <Navigator />
+    <Provider store={store}>
+      <TabNavigator />
+    </Provider>
   );
 }
 

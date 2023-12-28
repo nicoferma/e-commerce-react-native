@@ -2,13 +2,19 @@ import { View, Text, StyleSheet, ActivityIndicator, Image, TouchableOpacity, use
 import products from '../data/products_data.json'
 import { useEffect, useState } from 'react'
 import { colors } from '../global/colors'
+import { useSelector } from 'react-redux'
 
-const ProductDetail = ({ route }) => {
+
+const ProductDetail = () => {
     const [productSelected, setProductSelected] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [isPortrait, setIsPortrait] = useState(true)
 
-    const { product } = route.params
+
+    const getMyProduct = new Promise((resolve, reject) => {
+        const product = useSelector(state => state.shopReducer.productSelected)
+        resolve(product)
+    });
 
     const { height, width } = useWindowDimensions()
 
@@ -17,10 +23,11 @@ const ProductDetail = ({ route }) => {
     }, [height])
 
     useEffect(() => {
-        const productFinded = products.find(p => p.id === product.id)
-        setProductSelected(productFinded)
-        setIsLoading(false)
-    }, [product])
+        getMyProduct.then((value) => {
+            setProductSelected(value)
+            setIsLoading(false)
+        })
+    }, [])
 
     return (
         <>
@@ -35,6 +42,7 @@ const ProductDetail = ({ route }) => {
                                 source={{ uri: productSelected?.images[0] }}
                                 resizeMode='cover'
                                 style={isPortrait ? styles.imageProduct : styles.imageProductLandscape}
+                                PlaceholderContent={<ActivityIndicator color={colors.green} />}
                             />
                             <View style={styles.detailContainer}>
                                 <Text style={styles.title}>{productSelected?.title}</Text>
